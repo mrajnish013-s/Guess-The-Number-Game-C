@@ -1,87 +1,108 @@
-#include <stdio.h>    // for printf and scanf
+#include <stdio.h>    
 #include <stdlib.h>   // for rand and srand
-#include <time.h>     // for  different randomNumber
-#include <windows.h> // 1. Yeh library lagao  [ emoji use karne ke liye]
+#include <time.h>     // for generate different randomNumber
+#include <windows.h>  // this is a library function for using emoji;
 
-int main()
+#define MAX_NUMBER 100
+
+// function : 1
+int generateRandomNumber()
 {
-    srand(time(0));
+    // Generate a new random number for each player
+    return (rand()% MAX_NUMBER)+1;
+}
 
-    // 2. Yeh line terminal ko UTF-8 (Modern Characters jaise -emoji ) mode mein set kar deti hai21
-    SetConsoleOutputCP(CP_UTF8);
+// function : 2
+void playerTurn(int playerNumber, int *guessCount);    // function prototype
 
-    int randomNumber;     // computer ka number 
-    int guessed_number;   // player ka number 
-
-    int guessed_p1=0;       // total number guessed of gussed of p1
-    int guessed_p2=0;       /// total number guessed of gussed of p2
-
-    printf("======== WELCOME TO MULTIPLAYER NUMBER GUSSED GAME =======\n\n\n");
-
-    // -------------------PLAYER 01 TURN----------------------------
-    // har player ke liye nya random number generate karega
-    randomNumber=(rand()%100)+1;
-    printf("----PLAYER 1 TURN ----\n");
-
+void playerTurn(int playerNumber, int *guessCount)
+{
+    int randomNumber = generateRandomNumber ();
+    int guessed_number;
+    printf("----PLAYER %d TURN ----\n", playerNumber);
     do
-    {
-      printf("Enter guessed number :");
-      scanf("%d", &guessed_number);
-      guessed_p1++;
-      if(guessed_number>randomNumber){
-        printf("Lower number pleased!\n\n");
-      }
-      else if (guessed_number<randomNumber){
-        printf("Higher number please!\n\n");
-      }else
-      {
-        printf("CONGRATS! you guessed correct in %d guessed\n\n", guessed_p1);
-      }
+    {   
+        printf("Enter guessed number : ");
+        scanf("%d", &guessed_number);
+        
+        if (guessed_number < 1 || guessed_number > MAX_NUMBER)
+        {
+            printf("❌ Invalid input! Enter a number between 1 and %d.\n\n", MAX_NUMBER);
+            continue;
+        }
+        
+        (*guessCount)++;
+        
+        if(guessed_number>randomNumber){
+            printf("Lower number pleased!\n\n");
+        }
+        else if (guessed_number<randomNumber){
+            printf("Higher number please!\n\n");
+        }else
+        {
+            printf("Congratulations! You guessed the correct number in %d guesses.\n\n", *guessCount);
+        }
+        
     } while ( guessed_number != randomNumber);
 
-    printf("\n------------------------------------------------\n");
-    char reddy;
-    printf("Enter 1 for PLAYER 2 turn :");
-    scanf(" %c", &reddy);      // %c se pehle ek space zaroor lagana buffer saaf karne ke liy
-    printf("\n-------------------------------------------------\n\n");
+}
 
-    //----------------------PLAYER 2 TURN---------------------
-    //============PLAYER 2 KE NYA RANDOM NUMBER==============
-    randomNumber=(rand()%100)+1;
-    printf("-------PLAYER 2 TURN----------\n");
-    do
-    {
-         printf("Enter guessed number :");
-         scanf("%d", &guessed_number);
-         guessed_p2++;
-         if (guessed_number>randomNumber){
-             printf("Lower number please!\n\n");
-         }
-         else if (guessed_number<randomNumber){
-             printf("Higher number please!\n\n");
-         }
-         else{
-             printf("CONGRATS! you guessed correct in %d guessed\n\n", guessed_p2);
-         }       
-    } while (guessed_number != randomNumber);
+// function : 3
+void showWinner(int guessed_p1, int guessed_p2);  //function prototype
 
-    // ------------------ WINNER DECISION (If-Else) ------------------
+void showWinner(int guessed_p1, int guessed_p2)
+{
     printf("------------------ WINNER DECISION------------------\n");
     printf("==================== RESULT ====================\n");
     printf("Player 1  Guesses : %d\n", guessed_p1);
     printf("Player 2  Guesses : %d\n", guessed_p2);
 
     if(guessed_p1<guessed_p2){
-        printf("🏆 PLAYER 1 is WINNER🎉!!\n");   //(Kyunki guesses kam hain)
+        printf("🏆 PLAYER 1 is WINNER🎉!!\n");   
     }
     else if(guessed_p1>guessed_p2)
     {
-        printf("🏆 PLAYER 2 is WINNER🎉!!\n");   //(Kyunki guesses kam hain)
+        printf("🏆 PLAYER 2 is WINNER🎉!!\n");   
     }else
     {
         printf("🤝 MATCH TIE! both have equal geusses\n");
     }
     printf("====================================================\n");
+}
 
+
+int main()
+{
+    srand(time(0));
+    SetConsoleOutputCP(CP_UTF8); // This line sets the terminal to UTF-8 mode (for modern characters like emojis)
+    char again;
+    char ready;
+
+    
+    do
+    {
+        int guessed_p1=0;       // Player 1 guessed in fewer attempts
+        int guessed_p2=0;       // Player 2 guessed in fewer attempts
+        printf("======== WELCOME TO MULTIPLAYER GUESS THE NUMBER GAME =======\n\n\n");   
+        printf("Guess a number between 1 and %d\n\n", MAX_NUMBER);     
+        // -------------------PLAYER 1 TURN----------------------------        
+        playerTurn(1, &guessed_p1);
+        printf("\n------------------------------------------------\n");
+        printf("Enter 1 for PLAYER 2 turn :");
+        scanf(" %c", &ready);    // Always put a space before %c to clear the input buffer  
+        printf("-------------------------------------------------\n\n");
+        //----------------------PLAYER 2 TURN---------------------
+        playerTurn(2, &guessed_p2);
+        // ------------------ WINNER DECISION (If-Else) -----------------
+        showWinner(guessed_p1,guessed_p2);
+        // --------------------------------------------------------------
+        printf("Do you want to play  again ? Enter(Y/N)\n");
+        scanf(" %c", &again);
+    } while (again == 'Y' || again == 'y');
+    printf("\n-------------------------------------------------\n");
+    printf("🎮 Thank you for playing!\n");
+    printf("See you again. Goodbye!\n");
+    printf("-------------------------------------------------\n");
+    
     return 0;
 } 
