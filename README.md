@@ -98,14 +98,36 @@ main
 
 ## 📸 Screenshots
 
-Screenshots will be added soon.
+### Difficulty Selection
 
-- Welcome Screen
-- Difficulty Selection
-- Gameplay
-- Winner Screen
+![Difficulty Selection](screenshots/difficulty-selection.png)
 
 ---
+
+### Welcome Screen
+
+![Welcome Screen](screenshots/welcome-screen.png)
+
+---
+
+### Player 1 Gameplay
+
+![Player 1 Gameplay](screenshots/gameplay-player1.png)
+
+---
+
+### Player 2 Gameplay
+
+![Player 2 Gameplay](screenshots/gameplay-player2.png)
+
+---
+
+### Winner Screen
+
+![Winner Screen](screenshots/winner-screen.png)
+
+---
+
 
 ## 🚀 Future Improvements
 
