@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> // this is a library function for using  rand and srand;
 #include <time.h>
+#include <limits.h>
 #include <windows.h> // this is a library function for using emoji;
 
 // Function Prototypes
@@ -9,9 +10,10 @@ void showWelcomeBanner(int maxNumber);
 int selectDifficulty(void);
 void playerTurn(int playerNumber, int *guessCount, int maxNumber);
 void prepareNextPlayer(void);
-void showWinner(int player1GuessCount, int player2GuessCount,int *winCountPlayer1, int *winCountPlayer2, int *drawCount);
-void scoreboard(int winCountPlayer1 , int winCountPlayer2  ,int drawCount  );
-void finalScoreboard(int winCountPlayer1 , int winCountPlayer2  ,int drawCount );
+void showWinner(int player1GuessCount, int player2GuessCount, int *winCountPlayer1, int *winCountPlayer2, int *drawCount);
+void scoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount);
+void finalScoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount);
+void showBestScore(int bestScore, int bestPlayer);
 
 // Main Function
 int main(void)
@@ -19,9 +21,11 @@ int main(void)
     srand(time(0));
     SetConsoleOutputCP(CP_UTF8); // This line sets the terminal to UTF-8 mode (for modern characters like emojis)
     char again;
-    int  player1Wins = 0 ;
-    int  player2Wins = 0 ;
-    int  draw = 0 ;
+    int player1Wins = 0;
+    int player2Wins = 0;
+    int draw = 0;
+    int bestScore = INT_MAX;
+    int bestPlayer = 0;
 
     do
     {
@@ -38,18 +42,30 @@ int main(void)
         playerTurn(2, &player2GuessCount, maxNumber);
 
         showWinner(player1GuessCount, player2GuessCount, &player1Wins, &player2Wins, &draw);
-        
-        scoreboard(player1Wins ,  player2Wins  ,draw );
 
+        scoreboard(player1Wins, player2Wins, draw);
+
+        if (player1GuessCount < bestScore)
+        {
+            bestScore = player1GuessCount;
+            bestPlayer = 1;
+        }
+
+        if (player2GuessCount < bestScore)
+        {
+            bestScore = player2GuessCount;
+            bestPlayer = 2;
+        }
 
         printf("\nDo you want to play again? (Y/N): ");
         scanf(" %c", &again);
 
-        if(again != 'y' && again != 'Y')
+        if (again != 'y' && again != 'Y')
         {
-        finalScoreboard(player1Wins ,  player2Wins  ,draw);
+            finalScoreboard(player1Wins, player2Wins, draw);
+            showBestScore(bestScore, bestPlayer);
         }
-    
+
     } while (again == 'Y' || again == 'y');
 
     printf(
@@ -61,12 +77,12 @@ int main(void)
     return 0;
 }
 
-//  Function Definitions 
+//  Function Definitions
 int generateRandomNumber(int maxNumber)
 {
     return (rand() % maxNumber) + 1;
 }
-// Function Definitions 
+// Function Definitions
 void showWelcomeBanner(int maxNumber)
 {
 
@@ -86,7 +102,7 @@ void showWelcomeBanner(int maxNumber)
         "==========================================================\n\n\n",
         maxNumber);
 }
-// Function Definitions 
+// Function Definitions
 int selectDifficulty(void)
 {
     int choice;
@@ -138,7 +154,7 @@ int selectDifficulty(void)
 
     return selectedMaxNumber;
 }
-// Function Definitions 
+// Function Definitions
 void playerTurn(int playerNumber, int *guessCount, int maxNumber)
 {
     int randomNumber = generateRandomNumber(maxNumber);
@@ -181,14 +197,14 @@ void playerTurn(int playerNumber, int *guessCount, int maxNumber)
         else
         {
             printf(
-                "\nCongratulations ! 🎉\n"
+                "\nCongratulations! 🎉\n"
                 "You guessed the correct number in %d attempts.\n\n",
-                 *guessCount );
+                *guessCount);
         }
 
     } while (guessedNumber != randomNumber);
 }
-// Function Definitions 
+// Function Definitions
 void prepareNextPlayer(void)
 {
     printf(
@@ -199,8 +215,8 @@ void prepareNextPlayer(void)
     getchar();
     printf("==========================================================\n\n");
 }
-// Function Definitions 
-void showWinner(int player1GuessCount, int player2GuessCount, int *winCountPlayer1, int *winCountPlayer2, int *drawCount )
+// Function Definitions
+void showWinner(int player1GuessCount, int player2GuessCount, int *winCountPlayer1, int *winCountPlayer2, int *drawCount)
 {
 
     printf(
@@ -225,100 +241,80 @@ void showWinner(int player1GuessCount, int player2GuessCount, int *winCountPlaye
     else
     {
         printf("🤝 MATCH TIE! both have equal guesses\n");
-          (*drawCount)++;
+        (*drawCount)++;
     }
     printf("\n==========================================================\n");
 }
-// Function Definitions 
-void scoreboard(int winCountPlayer1 , int winCountPlayer2  ,int drawCount )
+// Function Definitions
+void scoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount)
 {
-    
 
     printf(
         "\n==========================================================\n"
         "                        SCOREBOARD\n"
         "===========================================================\n\n"
-        
+
         "🏆 Player 1 Wins : %d\n"
-        "🏆 Player 2 Wins : %d\n" 
+        "🏆 Player 2 Wins : %d\n"
         "🤝 Draws         : %d\n\n"
 
         "==========================================================\n",
         winCountPlayer1,
         winCountPlayer2,
-        drawCount
-    );
+        drawCount);
 }
 // Function Definitions 5
-void finalScoreboard(int winCountPlayer1 , int winCountPlayer2  ,int drawCount )
+void finalScoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount)
 {
-    
 
     printf(
         "\n==========================================================\n"
         "                     FINAL SCOREBOARD\n"
         "==========================================================\n\n"
-        
+
         "🏆 Player 1 Wins : %d\n"
-        "🏆 Player 2 Wins : %d\n" 
+        "🏆 Player 2 Wins : %d\n"
         "🤝 Draws         : %d\n\n",
         winCountPlayer1,
         winCountPlayer2,
-        drawCount
-    );
+        drawCount);
 
-    if(winCountPlayer1 > winCountPlayer2)
+    if (winCountPlayer1 > winCountPlayer2)
     {
         printf(
             "🏆 Overall Champion : Player 1\n"
-            "Congratulations! 🎉\n"
-        );   
+            "Congratulations! 🎉\n");
     }
-    else if(winCountPlayer1 < winCountPlayer2)
+    else if (winCountPlayer1 < winCountPlayer2)
     {
         printf(
             "🏆 Overall Champion : Player 2\n"
-            "Congratulations! 🎉\n"
-        );
+            "Congratulations! 🎉\n");
     }
     else
     {
         printf(
             "🤝 It's Tie !\n"
-            "Both player have won same number of time \n"
-        );
-        
+            "Both players have won the same number of times.\n");
     }
 
     printf(
         "Thank you for playing!\n\n"
-        "==========================================================\n"
-    );
-    
+        "==========================================================\n");
 }
-// Function Definitions 6
-// void showWinner(int player1GuessCount, int player2GuessCount)
-// {
-//     printf(
-//         "==========================================================\n"
-//         "                         RESULT\n"
-//         "==========================================================\n\n"
-//         "Player 1  Guesses : %d\n"
-//         "Player 2  Guesses : %d\n\n",
-//         player1GuessCount,
-//         player2GuessCount);
+// Function Definitions
+void showBestScore(int bestScore, int bestPlayer)
+{
+    printf(
+        "\n==========================================================\n"
+        "                     BEST SCORE\n"
+        "==========================================================\n\n"
 
-//     if (player1GuessCount < player2GuessCount)
-//     {
-//         printf("🏆 Congratulations! Player 1 Wins 🎉!\n");
-//     }
-//     else if (player1GuessCount > player2GuessCount)
-//     {
-//         printf("🏆 Congratulations! Player 2 Wins 🎉!\n");
-//     }
-//     else
-//     {
-//         printf("🤝 MATCH TIE! both have equal guesses\n");
-//     }
-//     printf("\n==========================================================\n");
-// }
+        "🏅 Best Score : %d Attempts\n"
+        "👤 Achieved By : Player %d\n"
+
+        "\n==========================================================\n",
+        bestScore,
+        bestPlayer);
+}
+
