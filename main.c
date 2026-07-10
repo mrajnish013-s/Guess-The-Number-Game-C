@@ -14,6 +14,8 @@ void showWinner(int player1GuessCount, int player2GuessCount, int *winCountPlaye
 void scoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount);
 void finalScoreboard(int winCountPlayer1, int winCountPlayer2, int drawCount);
 void showBestScore(int bestScore, int bestPlayer);
+void saveHighScore(int bestScore, int bestPlayer);
+int loadHighScore(int* bestScore, int*  bestPlayer);
 
 // Main Function
 int main(void)
@@ -26,6 +28,8 @@ int main(void)
     int draw = 0;
     int bestScore = INT_MAX;
     int bestPlayer = 0;
+    int savedBestScore;
+    int savedBestPlayer;
 
     do
     {
@@ -63,7 +67,27 @@ int main(void)
         if (again != 'y' && again != 'Y')
         {
             finalScoreboard(player1Wins, player2Wins, draw);
-            showBestScore(bestScore, bestPlayer);
+
+            if (loadHighScore(&savedBestScore, &savedBestPlayer))
+            {
+                if (bestScore < savedBestScore)
+                {
+                    saveHighScore(bestScore, bestPlayer);
+                    printf("\n🎉 New High Score Saved!\n");
+
+                    savedBestScore = bestScore;
+                    savedBestPlayer = bestPlayer;
+                }
+            }
+            else
+            {
+                saveHighScore(bestScore, bestPlayer);
+                printf("\n🎉 First High Score Saved!\n");
+
+                savedBestScore = bestScore;
+                savedBestPlayer = bestPlayer;
+            }
+                showBestScore(savedBestScore, savedBestPlayer);
         }
 
     } while (again == 'Y' || again == 'y');
@@ -317,4 +341,79 @@ void showBestScore(int bestScore, int bestPlayer)
         bestScore,
         bestPlayer);
 }
+//function definition 
+void saveHighScore(int bestScore, int bestPlayer)
+{
 
+    FILE *fptr;
+    fptr = fopen("highscore.txt", "w");
+
+    if (fptr == NULL)
+    {
+        printf("Unable to save high score.\n");
+        return;
+    }
+    fprintf(fptr, "%d\n", bestScore);
+    fprintf(fptr, "%d\n", bestPlayer);
+
+    fclose(fptr);
+
+    printf("High Score Saved Successfully.\n");
+}
+//cunction definition 
+int loadHighScore(int* bestScore, int*  bestPlayer)
+{
+
+        
+        FILE *fptr ;
+        fptr = fopen("highscore.txt", "r");
+
+        if (fptr == NULL)
+        {
+            printf("No high score found. Play a game first!\n");
+            return 0;
+        }
+                
+        if(fscanf(fptr,"%d %d", bestScore , bestPlayer) != 2)
+        {
+            printf("High score file is corrupted.\n");
+            fclose(fptr);
+            return 0;
+        }
+        fclose(fptr);
+        return 1;
+}
+
+
+
+
+// int loadHighScore(int* bestScore, int*  bestPlayer)
+// {
+
+        
+//         FILE *fptr ;
+//         fptr = fopen("highscore.txt", "r");
+
+//         if (fptr == NULL)
+//         {
+//             printf("No high score found. Play a game first!\n");
+//             return 0;
+//         }
+                
+//         if(fscanf(fptr,"%d %d", bestScore , bestPlayer) != 2)
+//         {
+//             printf("High score file is corrupted.\n");
+//             fclose(fptr);
+//             return 0;
+//         }
+//         printf(
+//             "==========================================================\n"
+//             "                        BEST SCORE\n"
+//             "==========================================================\n");
+        
+//         printf("Best Score : %d Attempts\n", *bestScore);
+//         printf("Achieved By : Player %d\n", *bestPlayer);
+//         printf("==========================================================\n");
+//         fclose(fptr);
+//         return 1;
+// }
