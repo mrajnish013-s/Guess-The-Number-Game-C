@@ -1,4 +1,4 @@
-# 🎮 Guess The Number Game (Multiplayer)
+#  Guess The Number Game (Multiplayer)
 
 A console-based multiplayer number guessing game developed in **C Programming**.
 
@@ -8,27 +8,27 @@ This project was built to practice **C programming fundamentals**, **modular pro
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🎮 Two-player gameplay
-- 🎲 Random number generation
-- 🎯 Three difficulty levels
+-  Two-player gameplay
+-  Random number generation
+-  Three difficulty levels
   - Easy (1–50)
   - Medium (1–100)
   - Hard (1–500)
-- 🛡️ Input validation
+-  Input validation
   - Handles non-numeric input
   - Prevents invalid range input
   - Prevents invalid menu choices
-- 🔄 Replay option
-- 📊 Guess counter
-- 🏆 Automatic winner detection
-- 🧩 Modular function-based design
-- 💻 User-friendly console interface
+-  Replay option
+-  Guess counter
+-  Automatic winner detection
+-  Modular function-based design
+-  User-friendly console interface
 
 ---
 
-## 🎯 Difficulty Levels
+##  Difficulty Levels
 
 | Level | Number Range |
 |--------|--------------|
@@ -38,7 +38,7 @@ This project was built to practice **C programming fundamentals**, **modular pro
 
 ---
 
-## 🛡️ Input Validation
+##  Input Validation
 
 The game validates user input to improve reliability.
 
@@ -49,7 +49,7 @@ The game validates user input to improve reliability.
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - C Programming
 - Standard C Library
@@ -60,7 +60,7 @@ The game validates user input to improve reliability.
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 Guess-The-Number-Game-C
@@ -74,7 +74,7 @@ Guess-The-Number-Game-C
 
 ---
 
-## ▶️ How to Compile and Run
+##  How to Compile and Run
 
 ### Using GCC (MinGW)
 
@@ -85,7 +85,7 @@ main
 
 ---
 
-## 🎮 How to Play
+##  How to Play
 
 1. Select a difficulty level.
 2. Player 1 guesses their secret number.
@@ -96,7 +96,7 @@ main
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Difficulty Selection
 
@@ -129,22 +129,23 @@ main
 ---
 
 
-## 🚀 Future Improvements
+##  Future Improvements
 
-- 🏅 Scoreboard
-- 💾 High score saving using file handling
-- 💡 Hint system
-- ⏱️ Timer mode
-- 🎨 Colored console output
-- 📁 Multiple source files
-- 📄 Header files
-- 🌍 Cross-platform support
-- 🤖 Single Player vs Computer mode
-- 🧪 Unit Testing
+-  Scoreboard
+-  High score saving using file handling
+-  Hint system
+- ⏱️
+-  Timer mode
+-  Colored console output
+-  Multiple source files
+-  Header files
+-  Cross-platform support
+-  Single Player vs Computer mode
+-  Unit Testing
 
 ---
 
-## 📚 Concepts Practiced
+##  Concepts Practiced
 
 - Functions
 - Function Prototypes
@@ -162,7 +163,7 @@ main
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 **Rajneesh Maurya**
 
@@ -173,6 +174,6 @@ GitHub: **mrajnish013-s**
 
 ---
 
-## ⭐ Support
+##  Support
 
-If you found this project helpful, consider giving it a **⭐ Star** on GitHub.
+If you found this project helpful, consider giving it a ** Star** on GitHub.
